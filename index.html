@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebGPU PEA Map Visualization Tool</title>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="tooltip"></div>
+    
+    <div id="controls">
+        <button id="infoBtn" title="Help">?</button>
+        <button id="ditherBtn">Dither: Off</button>
+        <button id="colorBtn">Color: Light</button>
+        <button id="boundaryBtn">Boundaries: Off</button>
+        <button id="backBtn" style="display: none;">← Back to US Map</button>
+    </div>
+    
+    <select id="vizSelect">
+        <option value="pop">Total Population</option>
+        <option value="density">Pop Density (per sq mi)</option>
+    </select>
+
+    <div id="legend">
+        <div id="legendLabels">
+            <span id="legendMax">Loading...</span>
+            <span id="legend75"></span>
+            <span id="legend50"></span>
+            <span id="legend25"></span>
+            <span id="legendMin"></span>
+        </div>
+        <canvas id="legendCanvas"></canvas>
+    </div>
+
+    <div id="infoModal">
+        <div id="modalContent">
+            <span class="closeModal">&times;</span>
+            <h2>Visualization Help</h2>
+            <p><strong>Dithering Modes:</strong></p>
+            <ul>
+                <li><strong>Off:</strong> 8-bit greyscale image.</li>
+                <li><strong>Bayer:</strong> Ordered cross-hatch pattern. Precise but digital look.</li>
+                <li><strong>Blue Noise:</strong> Stochastic pattern. Organic, film-grain look.</li>
+            </ul>
+            <p><strong>Color Modes:</strong> Toggle between "Light" (Black Ink on Blue) and "Dark" (White Ink on Navy).</p>
+            <p><strong>Boundary Modes:</strong> Show or hide the boundaries between the geographic regions (PEAs or census tracts).</p>
+            <p><strong>Data to visualize:</strong> Dropdown allowing selection of data to be used for visualization.</p>
+
+            <p><strong>Navigation:</strong> Scroll to Zoom, Drag to Pan. Click a region to drill down.</p>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>
