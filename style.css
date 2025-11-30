@@ -1,3 +1,11 @@
+/**
+ * @file style.css
+ * @description webgpu-fcc-pea-visualizer - a tool to view population data per FCC PEA.
+ * @author Aldo Adriazola
+ * @copyright (c) 2025 Aldo Adriazola. All rights reserved.
+ * @license Licensed under the MIT License.
+ * @version 1.0
+ */
 html,
 body {
     margin: 0;
