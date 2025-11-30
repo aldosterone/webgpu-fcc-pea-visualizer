@@ -1,3 +1,12 @@
+/**
+ * @file main.js
+ * @description webgpu-fcc-pea-visualizer - a tool to view population data per FCC PEA.
+ * @author Aldo Adriazola
+ * @copyright (c) 2025 Aldo Adriazola. All rights reserved.
+ * @license Licensed under the MIT License (or specify your chosen license).
+ * @version 1.0
+ */
+
 import "https://cdn.jsdelivr.net/npm/earcut@2.2.4/dist/earcut.min.js";
 const earcut = window.earcut;
 
@@ -179,15 +188,33 @@ function computePEAPopulations() {
 // 5. WEBGPU INIT & UPDATE
 // ==========================================
 async function initWebGPU() {
-    if (!navigator.gpu) throw new Error("WebGPU not supported");
+    // 1. Check if the browser supports WebGPU
+    if (!navigator.gpu) {
+        const msg = "Your browser does not support WebGPU.\nPlease use Edge Canary, Chrome Canary, or Safari Technology Preview.";
+        alert(msg);
+        throw new Error(msg);
+    }
+
+    // 2. Request the physical GPU Adapter
     const adapter = await navigator.gpu.requestAdapter();
+    if (!adapter) {
+        const msg = "WebGPU is supported, but no suitable GPU adapter was found.";
+        alert(msg);
+        throw new Error(msg);
+    }
+
+    // 3. Request the Logical Device
     device = await adapter.requestDevice();
+    
+    // 4. Configure the Canvas
     context = canvas.getContext('webgpu');
     format = navigator.gpu.getPreferredCanvasFormat();
     context.configure({ device, format, alphaMode: 'opaque' });
     
+    // 5. Global Uniform Buffer (Initialized once)
     uniformBuffer = device.createBuffer({ size: 32, usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST });
 
+    // 6. Handle Resizing
     resizeCanvas();
     window.addEventListener('resize', () => {
         resizeCanvas();
